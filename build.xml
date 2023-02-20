@@ -1,6 +1,6 @@
-<project name="Network Security Library" default="dist" basedir=".">
+<project name="Merrimack College Utility Library" default="dist" basedir=".">
   <description>
-    Builds foundational classes for network security.
+    Builds foundational classes student development and research.
   </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
@@ -27,7 +27,7 @@
     <mkdir dir="${dist}"/>
 
     <!-- Put everything in ${build} into the csc5155.jar file -->
-    <jar jarfile="${dist}/csc3055.jar" basedir="${build}">
+    <jar jarfile="${dist}/merrimackutil.jar" basedir="${build}">
       <manifest>
         <!-- <attribute name="Main-Class" value="entropyserver.Main" />
         <attribute name="Class-Path" value="/usr/lib/java/opencv.jar" />-->
