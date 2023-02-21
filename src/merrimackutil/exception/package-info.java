@@ -17,7 +17,7 @@
 
 /**
  * This package provides implementation of exception helper
- * classes for projects in CSC 3055 Network Security.
+ * classes.
  *
  * @author Zach Kissel
  */

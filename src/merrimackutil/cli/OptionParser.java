@@ -127,10 +127,29 @@ import merrimackutil.util.Tuple;
      public void setLongOpts(LongOption[] lopts)
      {
        loptMap = new HashMap<>();
-
        for (int i = 0; i < lopts.length; i++)
         loptMap.put(lopts[i].getOption(), lopts[i]);
      }
+
+     /**
+      * Sets up the long options together with the corresponding
+      * short options. This will erase all existing short options.
+      * @param lopts the array of long options.
+      */
+      public void setLongAndShortOpts(LongOption[] lopts)
+      {
+        String opt = "";
+        setLongOpts(lopts);
+
+        // Build out the option string.
+        for (int i = 0; i < lopts.length; i++)
+        {
+          opt += lopts[i].getReturnVal();
+          if (lopts[i].needsArg())
+            opt += ":";
+        }
+        setOptString(opt);
+      }
 
 
     /**

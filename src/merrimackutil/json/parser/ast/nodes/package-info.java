@@ -16,8 +16,7 @@
  */
 
 /**
- * This package provides implementation of a of JSON syntax tree nodes for use in
- * projects in CSC 3055 Network Security.
+ * This package provides implementation of a of JSON syntax tree nodes.
  *
  * @author Zach Kissel
  */

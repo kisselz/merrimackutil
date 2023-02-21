@@ -16,8 +16,7 @@
  */
 
 /**
- * This package provides implementation of CLI helper classes for
- * projects in CSC 3055 Network Security.
+ * This package provides implementation of CLI helper classes.
  *
  * @author Zach Kissel
  */
