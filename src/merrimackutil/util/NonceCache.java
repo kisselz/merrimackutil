@@ -72,7 +72,6 @@ public class NonceCache
     // is still valid.
     if (cache.containsKey(Base64.getEncoder().encodeToString(nonce)))
     {
-      System.out.println("nonce found");
       if ((System.currentTimeMillis() - cache.get(
         Base64.getEncoder().encodeToString(nonce))) < ageLimit)
         return true;
