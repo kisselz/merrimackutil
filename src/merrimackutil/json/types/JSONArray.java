@@ -26,7 +26,7 @@ import merrimackutil.json.lexer.TokenType;
  * Represent a JSON array as a linked list.
  * @author Zach Kissel
  */
-public class JSONArray extends ArrayList<Object> implements JSONType
+public final class JSONArray extends ArrayList<Object> implements JSONType
 {
   /**
   * Default constructor builds an empty JSONArray.

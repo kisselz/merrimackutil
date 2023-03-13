@@ -26,7 +26,7 @@ import merrimackutil.json.lexer.TokenType;
 /**
  * This class represents a JSON object.
  */
-public class JSONObject extends HashMap<String, Object> implements JSONType
+public final class JSONObject extends HashMap<String, Object> implements JSONType
 {
   /**
    * Constructs a new JSON class.
