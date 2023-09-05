@@ -118,6 +118,11 @@ import merrimackutil.util.Tuple;
               optMap.put(opts.charAt(i), false);
           }
         }
+
+        // Handle the case when the last character of the option string 
+        // is not a colon.
+        if (opts.charAt(opts.length() - 1) != ':')
+          optMap.put(opts.charAt(opts.length() - 1), false);
       }
 
     /**
