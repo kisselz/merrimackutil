@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -238,6 +238,10 @@ public final class JSONArray extends ArrayList<Object> implements JSONType
            if (formattedJSON.charAt(formattedJSON.length() -1) == '\n')
              formattedJSON += buildIndentString(indentCnt);
            formattedJSON += "null";
+         break;
+         case EOF:
+         case UNKNOWN:
+            /* This should never happen. */
          break;
        }
        tok = lex.nextToken();

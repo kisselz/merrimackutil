@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ import java.math.BigInteger;
     * @return A copy of the group.
     * @throws IllegalArgumentException if the {@code grpName} is invalid.
     */
-   public static Group getGroup(String grpName) throws IllegalArgumentException
+   public static Group<?> getGroup(String grpName) throws IllegalArgumentException
    {
      BigInteger g = new BigInteger("2");     // The generator.
      BigInteger p = null;     // The prime for the parent group, a safe prime.

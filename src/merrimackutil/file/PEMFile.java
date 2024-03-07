@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@ package merrimackutil.file;
 import java.io.File;
 import java.util.Scanner;
 
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import merrimackutil.exception.BadFileFormatException;
 
@@ -51,7 +50,10 @@ public class PEMFile {
     // Make sure first line is the start of a private key.
     line = in.nextLine();
     if (!line.equals("-----BEGIN PRIVATE KEY-----"))
+    {
+      in.close();
       throw new BadFileFormatException("Missing start of private key.");
+    }
 
     while (in.hasNextLine())
     {
@@ -62,12 +64,19 @@ public class PEMFile {
 
     // Make sure the key was ended correctly.
     if (!line.equals("-----END PRIVATE KEY-----"))
+    {
+      in.close();
       throw new BadFileFormatException("Missing end of private key.");
+    }
 
     // Make sure we have private key data to return.
     if (b64Data.equals(""))
+    {
+      in.close();
       throw new BadFileFormatException("No private key data found");
+    }
 
+    in.close();
     return b64Data;
   }
 
@@ -92,7 +101,10 @@ public class PEMFile {
     // Make sure first line is the start of a private key.
     line = in.nextLine();
     if (!line.equals("-----BEGIN PUBLIC KEY-----"))
+    {
+      in.close();
       throw new BadFileFormatException("Missing start of private key.");
+    }
 
     while (in.hasNextLine())
     {
@@ -103,12 +115,19 @@ public class PEMFile {
 
     // Make sure the key was ended correctly.
     if (!line.equals("-----END PUBLIC KEY-----"))
+    {
+      in.close();
       throw new BadFileFormatException("Missing end of private key.");
+    }
 
     // Make sure we have private key data to return.
     if (b64Data.equals(""))
+    {
+      in.close();
       throw new BadFileFormatException("No private key data found");
+    }
 
+    in.close();
     return b64Data;
   }
 

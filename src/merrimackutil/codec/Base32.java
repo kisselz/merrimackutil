@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -81,7 +81,6 @@ package merrimackutil.codec;
    {
      String binString = "";
      byte[] res;
-     String tmp;
 
      // Convert it to a bit string.
      for (int i = 0; i < b32str.length(); i++)

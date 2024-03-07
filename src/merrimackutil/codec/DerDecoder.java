@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -177,6 +177,16 @@ import merrimackutil.util.Tuple;
       return encoded[0] == OCTET_STRING;
     }
 
+    /**
+     * Determine if the encode payload is a NULL.
+     * @param encoded the DER encoded data.
+     * @return true if {@code encoded} is a NULL; otherwise, false.
+     */
+    public static boolean isNull(byte[] encoded)
+    {
+      return encoded[0] == NULL;
+    }
+
     /*************************************************
      *
      * Private Methods
@@ -226,25 +236,4 @@ import merrimackutil.util.Tuple;
           len = hdr[1];
         return new Tuple<Byte, Integer>(hdr[0], len);
       }
-
-    /**
-     * Joins {@code array1} and {@code array2} together such
-     * such that all elements of {@code array1} occur before
-     * {@code array2}.
-     * @param array1 the left half of the new array.
-     * @param array2 the right half of the new array.
-     * @return an array that consists of elements of {@code array1} followed by
-     * the elements of{@code array2}.
-     */
-    private static byte[] joinArrays(byte[] array1, byte[] array2)
-    {
-      byte[] rv = new byte[array1.length + array2.length];
-
-      for (int i = 0; i < array1.length; i++)
-       rv[i] = array1[i];
-      for (int i = 0; i < array2.length; i++)
-       rv[i + array1.length] = array2[i];
-
-      return rv;
-    }
  }
