@@ -20,37 +20,37 @@ import java.util.Arrays;
 
 /**
  * Represents a real valued matrix. The entries are restricted to 
- * 64-bit real numbers (Doubles). A real matrix is an immutable 
+ * 64-bit real numbers (ints). A real matrix is an immutable 
  * object.
  */
-public class RealMatrix
+public class IntegerMatrix
 {
     private int numRows;        // The number of rows in the matrix.
     private int numCols;        // The number of columns in the matrix.
-    private double[][] entries; // The entries of the matrix.
+    private int[][] entries; // The entries of the matrix.
 
     /**
      * Build a real matrix with {@code numRows} rows and {@code numCols} columns.
      * @param numRows the number of rows in the matrix.
      * @param numCols the number of columsn in the matrix.
      */
-    public RealMatrix(int numRows, int numCols)
+    public IntegerMatrix(int numRows, int numCols)
     {
         this.numRows = numRows;
         this.numCols = numCols;
-        entries = new double[numRows][numCols];
+        entries = new int[numRows][numCols];
     }
 
     /**
      * Cosntructs a new square matrix.
      * @param dim the dimension of the matrix.
      */
-    public RealMatrix(int dim)
+    public IntegerMatrix(int dim)
     {
         this.numRows = dim;
         this.numCols = dim;
 
-        entries = new double[dim][dim];
+        entries = new int[dim][dim];
     }
 
     /**
@@ -58,12 +58,12 @@ public class RealMatrix
      * copy of matrix {@code cpy}.
      * @param cpy the matrix to copy.
      */
-    public RealMatrix(RealMatrix cpy)
+    public IntegerMatrix(IntegerMatrix cpy)
     {
         this.numRows = cpy.getNumRows();
         this.numCols = cpy.getNumCols();
 
-        entries = new double[this.numRows][this.numCols];
+        entries = new int[this.numRows][this.numCols];
         for (int i = 0; i < numRows; i++)
             for(int j = 0; j < numCols; j++)
                 entries[i][j] = cpy.entries[i][j];
@@ -74,26 +74,26 @@ public class RealMatrix
      * @param n the dimension of the square matrix.
      * @return the RealMatrix I_n.
      */
-    public static RealMatrix getIdentity(int n)
+    public static IntegerMatrix getIdentity(int n)
     {
-        RealMatrix mat = new RealMatrix(n, n);
+        IntegerMatrix mat = new IntegerMatrix(n, n);
 
         for (int i = 0; i < n; i++)
-            mat.setEntry(i, i, 1.0);
+            mat.setEntry(i, i, 1);
         return mat;
     }
 
     /**
-     * Gives an integer form of this matrix.
-     * @return the integer form of this matrix.
+     * Gives a real form of this matrix.
+     * @return the real form of this matrix.
      */
-    public IntegerMatrix toIntegerMatrix()
+    public RealMatrix toRealMatrix()
     {
-        IntegerMatrix res = new IntegerMatrix(numRows, numCols);
+        RealMatrix res = new RealMatrix(numRows, numCols);
 
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numCols; j++)
-                res.setEntry(i, j, (int)entries[i][j]);
+                res.setEntry(i, j, (double)entries[i][j]);
         return res;
     }
 
@@ -104,7 +104,7 @@ public class RealMatrix
      * @param val the value stored in the given location.
      * @throws IllegalArgumentException if the location is not valid.
      */
-    public void setEntry(int row, int col, double val) throws IllegalArgumentException
+    public void setEntry(int row, int col, int val) throws IllegalArgumentException
     {
         if (row < numRows && row >= 0 && col < numCols && col >= 0)
             entries[row][col] = val;
@@ -119,7 +119,7 @@ public class RealMatrix
      * @return the entry at location ({@code row}, {@code column}).
      * @throws IllegalArgumentException if the location is not valid.
      */
-    public double getEntry(int row, int col) throws IllegalArgumentException
+    public int getEntry(int row, int col) throws IllegalArgumentException
     {
         if (row < numRows && row >= 0 && col < numCols && col >= 0)
             return entries[row][col];
@@ -132,9 +132,9 @@ public class RealMatrix
      * @param matB the matrix to add to this matrix.
      * @return a new mathrix that is the sum of this matrix and {@code matB}.
      */
-    public RealMatrix add(RealMatrix matB) 
+    public IntegerMatrix add(IntegerMatrix matB) 
     {
-        RealMatrix mat = new RealMatrix(numRows, numCols);
+        IntegerMatrix mat = new IntegerMatrix(numRows, numCols);
    
         if (matB.getNumCols() != numCols || matB.getNumRows() != numRows)
             throw new UnsupportedOperationException("mismatched dimensions.");
@@ -151,9 +151,9 @@ public class RealMatrix
      * @param scalar the scalar to multiply each entry by.
      * @return a matrix that results from scalar multiplying this matrix.
      */
-    public RealMatrix scalarMultiply(double scalar)
+    public IntegerMatrix scalarMultiply(int scalar)
     {
-        RealMatrix mat = new RealMatrix(numRows, numCols);
+        IntegerMatrix mat = new IntegerMatrix(numRows, numCols);
 
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numCols; j++)
@@ -168,9 +168,9 @@ public class RealMatrix
      * @return the result of left multiplying this by {@code matB}.
      * @throws IllegalArgumentException if there is a dimension mismatch.
      */
-    public RealMatrix multiply(RealMatrix matB) throws IllegalArgumentException
+    public IntegerMatrix multiply(IntegerMatrix matB) throws IllegalArgumentException
     {
-        RealMatrix res = new RealMatrix(this.numRows, matB.getNumCols());
+        IntegerMatrix res = new IntegerMatrix(this.numRows, matB.getNumCols());
 
         // Make sure we can multiply the two matrices.
         if (this.numCols != matB.getNumRows())
@@ -190,9 +190,9 @@ public class RealMatrix
      * Compute the transpose of this matrix.
      * @return the transpose of this matrix.
      */
-    public RealMatrix transpose() 
+    public IntegerMatrix transpose() 
     {
-        RealMatrix mat = new RealMatrix(numCols, numRows);
+        IntegerMatrix mat = new IntegerMatrix(numCols, numRows);
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numCols; j++)
                 mat.entries[j][i] = entries[i][j];
@@ -203,7 +203,7 @@ public class RealMatrix
      * Return the inverse of this matrix.
      * @return the inverse of this matrix.
      */
-    public RealMatrix invert() 
+    public IntegerMatrix invert() 
     {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'invert'");
@@ -246,7 +246,7 @@ public class RealMatrix
         if (getClass() != obj.getClass())
             return false;
 
-        RealMatrix other = (RealMatrix) obj;
+        IntegerMatrix other = (IntegerMatrix) obj;
         if (numRows != other.numRows)
             return false;
         if (numCols != other.numCols)
@@ -268,7 +268,7 @@ public class RealMatrix
         {
             String row = "[ ";
             for (int j = 0; j < numCols; j++)
-                row += String.format("%.3f", entries[i][j]) + " ";
+                row += String.format("%d", entries[i][j]) + " ";
             row += "]\n";
             res += row;
         }

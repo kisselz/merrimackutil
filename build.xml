@@ -4,21 +4,39 @@
   </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
+  <property name="testsrc" location="tests"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
   <property name="api" location="api"/>
+  <property name="lib" location="lib"/>
+  <property name="jarname" value="merrimackutil.jar" />
 
   <target name="init">    <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <!-- <mkdir dir="${build}/tests" /> -->
     <mkdir dir="${api}"/>
   </target>
 
+ <!-- Compile the Java code from ${src} into ${build} -->
   <target name="compile" depends="init"
         description="Compile source code">
-    <!-- Compile the Java code from ${src} into ${build} -->
-
     <javac includeantruntime="false"
-      srcdir="${src}" destdir="${build}" />
+      srcdir="${src}" destdir="${build}" debug="true"
+      debuglevel="lines,vars,source">
+      <compilerarg value="-Xlint:deprecation,unchecked" />
+    </javac>
+    </target>
+
+    <!-- Compile tests-->
+    <target name="testcompile" depends="dist" description="Compile tests">
+    <javac includeantruntime="false"
+      srcdir="${testsrc}" destdir="${build}" debug="true"
+      debuglevel="lines,vars,source">
+      <compilerarg value="-Xlint:deprecation,unchecked" />
+      <classpath>
+          <fileset dir="${lib}" includes="**/*.jar"/>      
+      </classpath>
+    </javac>
   </target>
 
   <target name="dist" depends="compile"
@@ -35,12 +53,27 @@
     </jar>
   </target>
 
+
+ <!-- JUnit test target. -->
+  <target name="test" depends="testcompile">
+    <junit printsummary="off" fork="true" haltonfailure="no">
+      <classpath>
+        <fileset dir="${lib}" includes="**/*.jar" />
+        <path location="${build}" />
+        <pathelement location="${build}"/>
+      </classpath>
+      <formatter type="brief" usefile="false" />
+      <batchtest>
+        <fileset dir="${build}" includes="*.class" />
+      </batchtest>
+      </junit>
+   </target>
+
    <target name="api" depends="init" description="generate javadoc">
     <javadoc sourcepath="${src}" destdir="${api}"/>
   </target>
 
-  <target name="clean"
-        description="clean up">
+  <target name="clean" description="clean up">
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
