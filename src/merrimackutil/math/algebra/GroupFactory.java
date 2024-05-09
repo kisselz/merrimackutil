@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2022  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -14,31 +14,31 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package merrimackutil.math;
+package merrimackutil.math.algebra;
 
 import java.math.BigInteger;
 
 /**
- * A factory that constructs instances of fields based on their
+ * A factory that constructs instances of groups based on their
  * names.
  *  - FFDHEXXXX groups taken from RFC 7919 Appendix A.
  * @author Zach Kissel
  */
- public class FieldFactory
+ public class GroupFactory
  {
    /**
-    * Returns a new field based on the field name {@code fieldName}.
-    * @param fieldName the name of the field.
+    * Returns a new group based on the group name {@code grpName}.
+    * @param grpName the name of the group.
     * @return A copy of the group.
-    * @throws IllegalArgumentException if the {@code fieldName} is invalid.
+    * @throws IllegalArgumentException if the {@code grpName} is invalid.
     */
-   public static Field getField(String fieldName) throws IllegalArgumentException
+   public static Group<?> getGroup(String grpName) throws IllegalArgumentException
    {
      BigInteger g = new BigInteger("2");     // The generator.
      BigInteger p = null;     // The prime for the parent group, a safe prime.
      BigInteger q = null;     // The order of the sub group.
 
-     if (fieldName.equals("FFDHE2048"))
+     if (grpName.equals("FFDHE2048"))
      {
        p = new BigInteger("FFFFFFFFFFFFFFFFADF85458A2BB4A9AAFDC5620273D3CF1" +
                           "D8B9C583CE2D3695A9E13641146433FBCC939DCE249B3EF9" +
@@ -62,10 +62,10 @@ import java.math.BigInteger;
                           "C8B97F4E74C2C1FFC7278919777940C1E1FF1D8DA637D6B9" +
                           "9DDAFE5E17611002E2C778C1BE8B41D96379A51360D977FD" +
                           "4435A11C30942E4BFFFFFFFFFFFFFFFF", 16);
-      return new Field(g, p, q);
+      return new MultiplicativeGroup(g, p, q);
      }
 
-     else if (fieldName.equals("FFDHE3072"))
+     else if (grpName.equals("FFDHE3072"))
      {
        p = new BigInteger("FFFFFFFFFFFFFFFFADF85458A2BB4A9AAFDC5620273D3CF1" +
                           "D8B9C583CE2D3695A9E13641146433FBCC939DCE249B3EF9" +
@@ -101,10 +101,10 @@ import java.math.BigInteger;
                           "D5E290CBCD86F56D0EDFCD216AE22427055E6835FD29EEF7" +
                           "9E0D90771FEACEBE12F20E95B363171BFFFFFFFFFFFFFFFF",
                           16);
-      return new Field(g, p, q);
+      return new MultiplicativeGroup(g, p, q);
      }
 
-     else if (fieldName.equals("FFDHE4096"))
+     else if (grpName.equals("FFDHE4096"))
      {
        p = new BigInteger("FFFFFFFFFFFFFFFFADF85458A2BB4A9AAFDC5620273D3CF1" +
                           "D8B9C583CE2D3695A9E13641146433FBCC939DCE249B3EF9" +
@@ -150,10 +150,10 @@ import java.math.BigInteger;
                           "0D0EDC9EB8A0001E15276754FCC68566054148E6E764BEE7" +
                           "C764DAAD3FC45235A6DAD428FA20C170E345003F2F32AFB5" +
                           "7FFFFFFFFFFFFFFF", 16);
-      return new Field(g, p, q);
+      return new MultiplicativeGroup(g, p, q);
      }
 
-     else if (fieldName.equals("FFDHE6144"))
+     else if (grpName.equals("FFDHE6144"))
      {
        p = new BigInteger("FFFFFFFFFFFFFFFFADF85458A2BB4A9AAFDC5620273D3CF1" +
                           "D8B9C583CE2D3695A9E13641146433FBCC939DCE249B3EF9" +
@@ -221,10 +221,10 @@ import java.math.BigInteger;
                           "2D9DB8FCEE35C06B1FEEA5474D6D8F34B1534A936A18B0E0" +
                           "D20EAB86BC9C6D6A5207194E68720732FFFFFFFFFFFFFFFF",
                           16);
-      return new Field(g, p, q);
+      return new MultiplicativeGroup(g, p, q);
      }
 
-     else if (fieldName.equals("FFDHE8192"))
+     else if (grpName.equals("FFDHE8192"))
      {
        p = new BigInteger("FFFFFFFFFFFFFFFFADF85458A2BB4A9AAFDC5620273D3CF1" +
                           "D8B9C583CE2D3695A9E13641146433FBCC939DCE249B3EF9" +
@@ -312,18 +312,10 @@ import java.math.BigInteger;
                           "7D7D5F0E2EB8D43F17BA0F7C60FF437F535DFEF29833BF86" +
                           "CBE88EA4FBD4221E8411728354FA30A7008F154A41C7FC46" +
                           "6B4645DBE2E321267FFFFFFFFFFFFFFF", 16);
-        return new Field(g, p, q);
-     }
-     else if (fieldName.equals("test"))
-     {
-       g = new BigInteger("3");
-       p = new BigInteger("17");
-       q = new BigInteger("16");
-
-       return new Field(g, p, q);
+        return new MultiplicativeGroup(g, p, q);
      }
      else
-      throw new IllegalArgumentException("Unknown group name " + fieldName);
+      throw new IllegalArgumentException("Unknown group name " + grpName);
 
    }
  }

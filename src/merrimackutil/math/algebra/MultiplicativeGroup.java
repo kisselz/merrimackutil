@@ -14,40 +14,41 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package merrimackutil.math;
+package merrimackutil.math.algebra;
 
 import java.security.SecureRandom ;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.MessageDigest;
 import java.util.Arrays;
-import merrimackutil.util.Pair;
+
+import merrimackutil.util.Tuple;
 
 /**
- * This class createsa Modular multiplicative field built from a finite field.
+ * This class createsa Modular multiplicative group built from a finite field.
  * @author Zach Kissel
  */
- public class Field
+ public class MultiplicativeGroup implements Group<BigInteger>
  {
    BigInteger g;     // The generator.
-   BigInteger p;     // The prime for the parent field, a safe prime.
-   BigInteger q;     // The order of the sub field.
+   BigInteger p;     // The prime for the parent group, a safe prime.
+   BigInteger q;     // The order of the sub group.
 
    /**
-    * Constructs a new Z_p field of primer order q under multiplication.
-    * @param g the generator of the field.
-    * @param q the order of the field.
+    * Constructs a new Z_p group of primer order q under multiplication.
+    * @param g the generator of the group.
+    * @param q the order of the group.
     * @param p the modulus used for mathematical opearations.
     */
-   public Field(BigInteger g, BigInteger p, BigInteger q)
+   public MultiplicativeGroup(BigInteger g, BigInteger p, BigInteger q)
    {
      this.g = g;
      this.p = p;
      this.q = q;
    }
    /**
-    * Determines the order of the field.
-    * @return the number of elements in the field.
+    * Determines the order of the group.
+    * @return the number of elements in the group.
     */
    public BigInteger getOrder()
    {
@@ -55,8 +56,8 @@ import merrimackutil.util.Pair;
    }
 
    /**
-    * Gets the generator of the field.
-    * @return the generator of the field.
+    * Gets the generator of the group.
+    * @return the generator of the group.
     */
     public BigInteger getGenerator()
     {
@@ -64,70 +65,44 @@ import merrimackutil.util.Pair;
     }
 
    /**
-    * Finds the multiplicative inverse of element {@code element} in the
-    * field.
-    * @param element the element to find the multiplicative inverse of.
-    * @return the multiplicative inverse of element {@code element}.
+    * Finds the  inverse of element {@code element} in the
+    * group.
+    * @param element the element to find the inverse of.
+    * @return the inverse of element {@code element}.
     */
-   public BigInteger findMultInverse(BigInteger element)
+   public BigInteger findInverse(BigInteger element)
    {
      return element.modInverse(p);
    }
 
    /**
-    * Finds the addative inverse of element {@code element} in the
-    * field.
-    * @param element the element to find the additive inverse of.
-    * @return the additive invers of element {@code element}.
-    */
-   public BigInteger findAddInverse(BigInteger element)
-   {
-     BigInteger inverse = element.negate();
-     while (inverse.compareTo(BigInteger.ZERO) < 0)
-      inverse = inverse.add(p);
-     return inverse;
-   }
-
-   /**
-    * Applies the field multiplication operation to the two elements returning a
+    * Applies the group operation to the two elements returning a
     * new element.
     * @param left the left element.
     * @param right the right element
     * @return the result of applying the operation.
     */
-    public BigInteger multiply(BigInteger left, BigInteger right)
+    public BigInteger applyOperation(BigInteger left, BigInteger right)
     {
       return left.multiply(right).mod(p);
     }
 
     /**
-     * Applies the field addition operation to the two elements returning a
-     * new element.
-     * @param left the left element.
-     * @param right the right element
-     * @return the result of applying the operation.
-     */
-     public BigInteger add(BigInteger left, BigInteger right)
-     {
-       return left.add(right).mod(p);
-     }
-
-    /**
-     * Applies the field multiplication operation {@code n} times.
+     * Applies the group operation {@code n} times.
      * @param element the element to apply the operation to.
-     * @param n the number of times to apply the field operation
-     * to the specified element of the field.
+     * @param n the number of times to apply the group operation
+     * to the specified element of the group.
      * @return the result of applyting the operation to {@code n} copies of
      * {@code element}.
      */
-     public BigInteger exponetiate(BigInteger element, BigInteger n)
+     public BigInteger iterateOperation(BigInteger element, BigInteger n)
      {
        return element.modPow(n, p);
      }
 
     /**
-     * Sample a random element from the field.
-     * @return a uniformly random element from the field.
+     * Sample a random element from the group.
+     * @return a uniformly random element from the group.
      */
      public BigInteger sampleElement()
      {
@@ -136,23 +111,23 @@ import merrimackutil.util.Pair;
 
      /**
       * Samples an element together with discrete log of the element.
-      * @return a uniformly random element of the field along with its
+      * @return a uniformly random element of the group along with its
       * discrete log.
       */
-      public Pair<BigInteger> sampleElementWithDlog()
+      public Tuple<BigInteger, BigInteger> sampleElementWithDlog()
       {
         BigInteger exp = new BigInteger(
             (int)(Math.log(q.bitLength())/Math.log(2)),
              new SecureRandom());
-        return new Pair<BigInteger>(g.modPow(exp, p), exp);
+        return new Tuple<BigInteger, BigInteger>(g.modPow(exp, p), exp);
       }
 
      /**
-      * Hashes a binary string to a field element.
-      * @param msg the binary string to hash to a field element.
-      * @return an element of the field.
+      * Hashes a binary string to a group element.
+      * @param msg the binary string to hash to a group element.
+      * @return an element of the group.
       */
-      public BigInteger hashTofield(byte[] msg)
+      public BigInteger hashToGroup(byte[] msg)
       {
         MessageDigest md = null;
         try

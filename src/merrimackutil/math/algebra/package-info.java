@@ -16,9 +16,9 @@
  */
 
 /**
- * This package provides implementation of math helper
- * classes.
+ * This package provides implementation of algebraic structures such as (finite) fields, 
+ * groups, and rings.
  *
  * @author Zach Kissel
  */
-package merrimackutil.math;
+package merrimackutil.math.algebra;
