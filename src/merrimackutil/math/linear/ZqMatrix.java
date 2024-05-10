@@ -103,6 +103,21 @@ public class ZqMatrix
     }
 
     /**
+     * This method builds a random real matrix with values drawn 
+     * from the interval [base, limit)
+     * @param base the minimum possible value an entry can be.
+     * @param limit the limit for the entry.
+     * @param numRows the number of rows in the matrix.
+     * @param numCols the number of columns in the matrix.
+     * @param q the modulus of the ring.
+     * @return a random matrix.
+     */
+    public static ZqMatrix getRandomMatrix(int base, int limit, int numRows, int numCols, int q)
+    {
+       return new ZqMatrix(IntegerMatrix.getRandomMatrix(base, limit, numRows, numCols), q);
+    }
+
+    /**
      * Set the value of an entry in the matrix.
      * @param row the row the entry is in.
      * @param col the column the entry is in.

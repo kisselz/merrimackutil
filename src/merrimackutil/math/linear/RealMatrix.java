@@ -16,6 +16,7 @@
  */
 package merrimackutil.math.linear;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
@@ -80,6 +81,26 @@ public class RealMatrix
 
         for (int i = 0; i < n; i++)
             mat.setEntry(i, i, 1.0);
+        return mat;
+    }
+
+    /**
+     * This method builds a random real matrix with values drawn 
+     * from the interval [base, limit)
+     * @param base the minimum possible value an entry can be.
+     * @param limit the limit for the entry.
+     * @param numRows the number of rows in the matrix.
+     * @param numCols the number of columns in the matrix.
+     * @return a random matrix.
+     */
+    public static RealMatrix getRandomMatrix(double base, double limit, int numRows, int numCols)
+    {
+        RealMatrix mat = new RealMatrix(numRows, numCols);
+        SecureRandom rand = new SecureRandom();
+
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                mat.setEntry(i, j, rand.nextDouble(base, limit));
         return mat;
     }
 
