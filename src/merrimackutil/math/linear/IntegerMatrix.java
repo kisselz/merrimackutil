@@ -19,8 +19,8 @@ package merrimackutil.math.linear;
 import java.util.Arrays;
 
 /**
- * Represents a real valued matrix. The entries are restricted to 
- * 64-bit real numbers (ints). A real matrix is an immutable 
+ * Represents an integer valued matrix. The entries are restricted to 
+ * 32-bit numbers (ints). An integer matrix is an immutable 
  * object.
  */
 public class IntegerMatrix
@@ -130,7 +130,7 @@ public class IntegerMatrix
     /**
      * Adds this matrix and {@code matB}.
      * @param matB the matrix to add to this matrix.
-     * @return a new mathrix that is the sum of this matrix and {@code matB}.
+     * @return a new matrix that is the sum of this matrix and {@code matB}.
      */
     public IntegerMatrix add(IntegerMatrix matB) 
     {
@@ -142,6 +142,25 @@ public class IntegerMatrix
         for (int i = 0; i < numRows; i++)
             for (int j = 0; j < numCols; j++)
                 mat.entries[i][j] = entries[i][j] + matB.entries[i][j];
+
+        return mat;
+    }
+
+    /**
+     * Subtract {@code matB} from this matrix.
+     * @param matB the matrix to subtract from this matrix.
+     * @return a new matrix that is the difference of this matrix and {@code matB}.
+     */
+    public IntegerMatrix subtract(IntegerMatrix matB) 
+    {
+        IntegerMatrix mat = new IntegerMatrix(numRows, numCols);
+   
+        if (matB.getNumCols() != numCols || matB.getNumRows() != numRows)
+            throw new UnsupportedOperationException("mismatched dimensions.");
+
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                mat.entries[i][j] = entries[i][j] - matB.entries[i][j];
 
         return mat;
     }

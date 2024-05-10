@@ -146,6 +146,26 @@ public class RealMatrix
         return mat;
     }
 
+
+    /**
+     * Subtract {@code matB} from this matrix.
+     * @param matB the matrix to subtract from this matrix.
+     * @return a new matrix that is the difference of this matrix and {@code matB}.
+     */
+    public RealMatrix subtract(RealMatrix matB) 
+    {
+        RealMatrix mat = new RealMatrix(numRows, numCols);
+   
+        if (matB.getNumCols() != numCols || matB.getNumRows() != numRows)
+            throw new UnsupportedOperationException("mismatched dimensions.");
+
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                mat.entries[i][j] = entries[i][j] - matB.entries[i][j];
+
+        return mat;
+    }
+
     /**
      * Multiply this matrix by the scalar {@code scalar}.
      * @param scalar the scalar to multiply each entry by.
