@@ -46,6 +46,11 @@ public class ZqMatrix
         this(dim, dim, q);
     }
 
+    /**
+     * Construct a ZqMatrix from an integer matrix and a modulus q.
+     * @param mat the matrix to map into Z/qZ with the same dimensions.
+     * @param q the modulus of the ring.
+     */
     public ZqMatrix(IntegerMatrix mat, int q)
     {
         this.matrix = new IntegerMatrix(mat);
