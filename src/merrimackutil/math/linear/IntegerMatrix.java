@@ -119,6 +119,175 @@ public class IntegerMatrix
     }
 
     /**
+     * Determine if this vector is a row matrix. 
+     * @return true if the vector is a row vector.
+     */
+    public boolean isRowVector()
+    {
+        return numRows == 1;
+    }
+
+    /**
+     * Determines if this matrix is a col vector.
+     * @return true if this matrix is a column vector.
+     */
+    public boolean isColVector()
+    {
+        return numCols == 1;
+    }
+
+    /**
+     * Determine if this matrix is a vector.
+     * @return true if the matrix is a vector, false otherwise.
+     */
+    public boolean isVector()
+    {
+        return isRowVector() || isColVector();
+    }
+
+    /**
+     * Compute the dot (or inner) product of two vectors.
+     * @param mat the matrix to compute the inner product with.
+     * @return the inner product.
+     * @throws IllegalArgumentException when an inner product can not be taken.
+     */
+    public int innerProd(IntegerMatrix mat) throws IllegalArgumentException
+    {
+        int res = 0;
+
+        if (!mat.isVector() || !isVector())
+            throw new IllegalArgumentException("Two vectors needed to take an inner product.");
+
+        // One row and one column vector.
+        if (isRowVector() && mat.isColVector())
+            return multiply(mat).getEntry(0, 0);
+
+        else if (isColVector() && mat.isRowVector())
+            return mat.multiply(this).getEntry(0, 0);
+        
+        else if (isRowVector() && mat.isRowVector()) // two row vectors.
+        {
+            if (numRows !=  mat.getNumRows())
+                throw new IllegalArgumentException("Dimension mismatch.");
+
+            for (int i = 0; i < numCols; i++)
+                res += getEntry(0, i) * mat.getEntry(0, i);
+
+        }
+        else // two column vectors.
+        {
+            if (numCols != mat.getNumCols())
+                throw new IllegalArgumentException("Dimension mismatch");
+
+            for (int i = 0; i < numRows; i++)
+                res += getEntry(i, 0) * mat.getEntry(i, 0);
+        }
+        return res;
+    }
+
+    /**
+     * Gets the named row vector from the matrix.
+     * @param rowId the row of the matrix to get.
+     * @return the row vector.
+     * @throws IllegalArgumentException if the row is invalid.
+     */
+    public IntegerMatrix getRowVector(int rowId) throws IllegalArgumentException
+    {
+        IntegerMatrix rowVector;
+
+        if (rowId > numRows || rowId < 0)
+            throw new IllegalArgumentException("rowId out of range.");
+        
+        rowVector = new IntegerMatrix(1, getNumCols());
+        for (int i = 0; i < numCols; i++)
+            rowVector.setEntry(0, i, getEntry(rowId, i));
+        return rowVector;
+    }
+
+    /**
+     * Gets the specified column vector from the matrix.
+     * @param colId the identifer of the column.
+     * @return the column vector.
+     * @throws IllegalArgumentException if the column does not exist.
+     */
+    public IntegerMatrix getColVector(int colId) throws IllegalArgumentException 
+    {
+        IntegerMatrix colVector;
+
+        if (colId > numCols || colId < 0)
+            throw new IllegalArgumentException("rowId out of range.");
+
+        colVector = new IntegerMatrix(getNumRows(), 1);
+        for (int i = 0; i < numRows; i++)
+            colVector.setEntry(i, 0, getEntry(i, colId));
+        return colVector;
+    }
+    
+    /**
+     * Computes the euclidean norm of the vector.
+     * 
+     * @return the Euclidean norm of the vector.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public double euclideanNorm() throws UnsupportedOperationException 
+    {
+        if (!this.isVector())
+            throw new UnsupportedOperationException("Can't take norm of a matrix.");
+
+        return Math.sqrt((double) this.innerProd(this));
+    }
+
+    /**
+     * Computes the inifity norm of the vector.
+     * 
+     * @return the infinity norm.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public int infinityNorm() throws UnsupportedOperationException 
+    {
+        int max = -1;
+
+        if (!this.isVector())
+            throw new UnsupportedOperationException("Can't take norm of a matrix.");
+
+        if (this.isRowVector()) {
+            for (int i = 0; i < this.getNumCols(); i++)
+                if (this.getEntry(0, i) > max)
+                    max = this.getEntry(0, i);
+        } 
+        else 
+        {
+            for (int i = 0; i < this.getNumRows(); i++)
+                if (this.getEntry(i, 0) > max)
+                    max = this.getEntry(i, 0);
+        }
+
+        return max;
+    }
+
+    /**
+     * Computes the Manhattan norm of a vector.
+     * 
+     * @return the Manhattan norm.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public int manhattanNorm() throws UnsupportedOperationException 
+    {
+        int dist = 0;
+
+        if (!this.isVector())
+            throw new UnsupportedOperationException("Can't take norm of a matrix");
+
+        if (this.isRowVector())
+            for (int i = 0; i < this.getNumCols(); i++)
+                dist += this.getEntry(0, i);
+        else
+            for (int i = 0; i < this.getNumRows(); i++)
+                dist += this.getEntry(i, 0);
+        return dist;
+    }
+
+    /**
      * Set the value of an entry in the matrix.
      * @param row the row the entry is in.
      * @param col the column the entry is in.

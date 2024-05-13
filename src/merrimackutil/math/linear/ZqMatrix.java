@@ -89,6 +89,105 @@ public class ZqMatrix
     }
 
     /**
+     * Determine if this vector is a row matrix.
+     * 
+     * @return true if the vector is a row vector.
+     */
+    public boolean isRowVector() 
+    {
+        return matrix.isRowVector();
+    }
+
+    /**
+     * Determines if this matrix is a col vector.
+     * 
+     * @return true if this matrix is a column vector.
+     */
+    public boolean isColVector() 
+    {
+        return matrix.isColVector();
+    }
+
+    /**
+     * Determine if this matrix is a vector.
+     * 
+     * @return true if the matrix is a vector, false otherwise.
+     */
+    public boolean isVector() 
+    {
+        return isRowVector() || isColVector();
+    }
+
+    /**
+     * Compute the dot (or inner) product of two vectors.
+     * 
+     * @param mat the matrix to compute the inner product with.
+     * @return the inner product.
+     * @throws IllegalArgumentException when an inner product can not be taken.
+     */
+    public int innerProd(ZqMatrix mat) throws IllegalArgumentException 
+    {
+        if (mat.q != this.q)
+            throw new IllegalArgumentException("Mismatched modulus.");
+
+        return matrix.innerProd(mat.matrix) % q;    
+    }
+
+    /**
+     * Gets the named row vector from the matrix.
+     * 
+     * @param rowId the row of the matrix to get.
+     * @return the row vector.
+     * @throws IllegalArgumentException if the row is invalid.
+     */
+    public ZqMatrix getRowVector(int rowId) throws IllegalArgumentException 
+    {
+        return new ZqMatrix(matrix.getRowVector(rowId), q);
+    }
+
+    /**
+     * Gets the specified column vector from the matrix.
+     * 
+     * @param colId the identifer of the column.
+     * @return the column vector.
+     * @throws IllegalArgumentException if the column does not exist.
+     */
+    public ZqMatrix getColVector(int colId) throws IllegalArgumentException 
+    {
+       return new ZqMatrix(matrix.getColVector(colId), q);
+    }
+
+    /**
+     * Computes the euclidean norm of the vector.
+     * @return the Euclidean norm of the vector.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public double euclideanNorm() throws UnsupportedOperationException
+    {
+        return matrix.euclideanNorm();
+    }
+
+    /**
+     * Computes the inifity norm of the vector.
+     * @return the infinity norm.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public int infinityNorm() throws UnsupportedOperationException
+    {
+       return matrix.infinityNorm();
+    }
+
+    /**
+     * Computes the Manhattan norm of a vector.
+     * @return the Manhattan norm.
+     * @throws UnsupportedOperationException if the matrix is not a vector.
+     */
+    public int manhattanNorm() throws UnsupportedOperationException
+    {
+        return matrix.manhattanNorm();
+    }
+
+    /**
      * This method gets the identity matrix I_n.
      * @param n the dimension of the square matrix.
      * @return the RealMatrix I_n.
@@ -152,19 +251,27 @@ public class ZqMatrix
      * Adds this matrix and {@code matB}.
      * @param matB the matrix to add to this matrix.
      * @return a new matrix that is the sum of this matrix and {@code matB}.
+     * @throws IllegalArgumentException if the matrices do not have the same modulus.
      */
-    public ZqMatrix add(ZqMatrix matB) 
+    public ZqMatrix add(ZqMatrix matB) throws IllegalArgumentException 
     {
+        if (this.q != matB.getQ())
+            throw new IllegalArgumentException("Matrices don't have matching modulus.");
         return new ZqMatrix(this.matrix.add(matB.matrix), q);
     }
 
     /**
      * Subtract {@code matB} from this matrix.
+     * 
      * @param matB the matrix to subtract from this matrix.
      * @return a new matrix that is the difference of this matrix and {@code matB}.
+     * @throws IllegalArgumentException if the matrices do not have the same modulus.
      */
-    public ZqMatrix subtract(ZqMatrix matB) 
+    public ZqMatrix subtract(ZqMatrix matB) throws IllegalArgumentException
     {
+        if (this.q != matB.getQ())
+            throw new IllegalArgumentException("Matrices don't have matching modulus.");
+
         IntegerMatrix negMat = matB.matrix.scalarMultiply(-1);
         return this.add(new ZqMatrix(negMat, q));
     }
@@ -192,6 +299,9 @@ public class ZqMatrix
      */
     public ZqMatrix multiply(ZqMatrix matB) throws IllegalArgumentException
     {
+        if (this.q != matB.getQ())
+            throw new IllegalArgumentException("Matrices don't have matching modulus.");
+
         IntegerMatrix prod = this.matrix.multiply(matB.matrix);
         return new ZqMatrix(prod, q);
     }
