@@ -301,7 +301,7 @@ public class ZqMatrix
     }
 
     /**
-     * Left multiply this matrix by {@code matB}.
+     * Right multiply this matrix by {@code matB}.
      * @param matB the matrix to left multiply by.
      * @return the result of left multiplying this by {@code matB}.
      * @throws IllegalArgumentException if there is a dimension mismatch.
