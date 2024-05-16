@@ -119,6 +119,19 @@ public class IntegerMatrix
     }
 
     /**
+     * Determines if the vector is zero or not.
+     * @return {@code true} if the vector is zero. 
+     */
+    public boolean isZero()
+    {
+        for (int i = 0; i < numRows; i ++)
+            for (int j = 0; j < numCols; j++)
+                if (entries[i][j] != 0)
+                    return false;
+        return true;
+    }
+
+    /**
      * Determine if this vector is a row matrix. 
      * @return true if the vector is a row vector.
      */

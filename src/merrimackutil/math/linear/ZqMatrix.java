@@ -89,6 +89,15 @@ public class ZqMatrix
     }
 
     /**
+     * Determines if the vector is zero or not.
+     * @return {@code true} if the vector is zero. 
+     */
+    public boolean isZero()
+    {
+        return matrix.isZero();
+    }
+
+    /**
      * Determine if this vector is a row matrix.
      * 
      * @return true if the vector is a row vector.
