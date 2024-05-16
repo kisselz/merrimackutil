@@ -40,7 +40,7 @@ import java.io.IOException;
    // The dictionary of language keywords
    private HashMap<String, TokenType> keywords;
 
-   private enum CharacterClass {LETTER, DIGIT, WHITE_SPACE, OTHER, END, MINUS, QUOTE};
+   private enum CharacterClass {LETTER, DIGIT, WHITE_SPACE, OTHER, END, MINUS, PLUS, QUOTE};
    CharacterClass nextClass; // The character class of the nextChar.
 
    /**
@@ -131,6 +131,23 @@ import java.io.IOException;
               getChar();
             }
           }
+          // Handle scientific notation.
+          if (nextChar == 'E' || nextChar == 'e')
+          {
+            value += nextChar;
+            getChar();
+            if (nextClass == CharacterClass.MINUS || nextClass == CharacterClass.PLUS)
+            {
+              value += nextChar;
+              getChar();
+            }
+            while(nextClass == CharacterClass.DIGIT)
+            {
+              value += nextChar;
+              getChar();
+            }
+          }
+
           unread(); // The symbol just read is part of the next token.
 
           return new Token(TokenType.NUMBER, value);
@@ -248,6 +265,8 @@ import java.io.IOException;
         nextClass = CharacterClass.WHITE_SPACE;
        else if (nextChar == '-')
         nextClass = CharacterClass.MINUS;
+       else if (nextChar == '+')
+        nextClass = CharacterClass.PLUS;
        else if (nextChar == '\"')
         nextClass = CharacterClass.QUOTE;
        else
