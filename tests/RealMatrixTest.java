@@ -72,4 +72,32 @@ public class RealMatrixTest {
         RealMatrix rTranspose = rowVector.transpose();
         assertEquals("row transpose is same a column vector. ", colVector, rTranspose);
     }
+
+    @Test
+    public void testInnerProduct()
+    {
+        RealMatrix rowVector1 = new RealMatrix(1, 3);
+        RealMatrix rowVector2 = new RealMatrix(1, 3);
+
+        // Initialize the two row vectors.
+        for (int i = 0; i < 3; i++)
+        {
+            rowVector1.setEntry(0, i, i + 1);
+            rowVector2.setEntry(0, i, 2);
+        }
+
+        assertEquals(12.0, rowVector1.innerProd(rowVector2), 0.0);
+    }
+
+    @Test
+    public void testEuclideanNorm()
+    {
+        RealMatrix rowVector = new RealMatrix(1, 3);
+
+        for (int i = 0; i < 3; i++)
+            rowVector.setEntry(0, i, 2.0);
+
+        assertEquals(Math.sqrt(12.0), rowVector.euclideanNorm(), 0.0);
+
+    }
 }

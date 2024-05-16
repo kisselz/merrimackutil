@@ -180,7 +180,7 @@ public class IntegerMatrix
         
         else if (isRowVector() && mat.isRowVector()) // two row vectors.
         {
-            if (numRows !=  mat.getNumRows())
+            if (numCols !=  mat.getNumCols())
                 throw new IllegalArgumentException("Dimension mismatch.");
 
             for (int i = 0; i < numCols; i++)
@@ -189,7 +189,7 @@ public class IntegerMatrix
         }
         else // two column vectors.
         {
-            if (numCols != mat.getNumCols())
+            if (numRows != mat.getNumRows())
                 throw new IllegalArgumentException("Dimension mismatch");
 
             for (int i = 0; i < numRows; i++)
