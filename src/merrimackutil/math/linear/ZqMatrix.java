@@ -316,6 +316,24 @@ public class ZqMatrix
     }
 
     /**
+     * Compute the Hadamard Product (element-wise product) of two matrices.
+     * 
+     * @param mat the matrix to compute the product of.
+     * @return the hadamard product matrix which has the same dimensions as matrix
+     *         {@code mat}.
+     * @throws IllegalArgumentException if this matrix and {@code mat} don't
+     *                                  have the same dimensions.
+     */
+    public ZqMatrix hadamardMultiply(ZqMatrix mat) throws IllegalArgumentException 
+    {
+        if (this.q != mat.getQ())
+            throw new IllegalArgumentException("Matrices don't have matching modulus.");
+
+        IntegerMatrix prod = this.matrix.hadamardMultiply(mat.matrix);
+        return new ZqMatrix(prod, q);
+    }
+
+    /**
      * Compute the transpose of this matrix.
      * @return the transpose of this matrix.
      */

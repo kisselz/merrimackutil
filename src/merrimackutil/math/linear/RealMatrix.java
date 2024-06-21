@@ -414,6 +414,32 @@ public class RealMatrix
     }
 
     /**
+     * Compute the Hadamard Product (element-wise product) of two matrices.
+     * 
+     * @param mat the matrix to compute the product of.
+     * @return the hadamard product matrix which has the same dimensions as matrix
+     *         {@code mat}.
+     * @throws IllegalArgumentException if this matrix and {@code mat} don't
+     *                                  have the same dimensions.
+     */
+    public RealMatrix hadamardMultiply(RealMatrix mat) throws IllegalArgumentException 
+    {
+        RealMatrix res = new RealMatrix(mat.getNumRows(), mat.getNumCols());
+
+        if (numRows != mat.getNumRows())
+            throw new IllegalArgumentException("Matrices must have the same number of rows.");
+
+        if (numCols != mat.getNumCols())
+            throw new IllegalArgumentException("Matrices must have the same number of columns.");
+
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                res.setEntry(i, j, entries[i][j] * mat.getEntry(i, j));
+
+        return res;
+    }
+
+    /**
      * Compute the transpose of this matrix.
      * @return the transpose of this matrix.
      */
