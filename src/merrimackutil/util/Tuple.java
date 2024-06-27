@@ -19,6 +19,8 @@ package merrimackutil.util;
 /**
  * A tuple type where the first element and second element
  * may have different types.
+ * @param <F> the type of the first element of the tuple.
+ * @param <S> the type of the second element of the tuple.
  *
  * @author Zach Kissel
  */

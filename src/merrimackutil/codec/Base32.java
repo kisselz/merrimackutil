@@ -26,6 +26,7 @@ package merrimackutil.codec;
  public class Base32
  {
    private static final String b32Tbl = "abcdefghijklmnopqrstuvwxyz234567";
+   
    /**
     * This method encodes an array of bytes as a Base-32 string.
     * See RFC 4648.

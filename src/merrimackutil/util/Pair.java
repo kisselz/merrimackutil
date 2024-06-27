@@ -19,7 +19,8 @@ package merrimackutil.util;
 /**
  * A simple pair object where each element of the pair
  * as the same type.
- *
+ * @param <T> the type of pair. 
+ * 
  * @author Zach Kissel
  */
 public class Pair<T> extends Tuple<T, T>
