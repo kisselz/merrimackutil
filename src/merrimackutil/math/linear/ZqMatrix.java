@@ -373,6 +373,39 @@ public class ZqMatrix
         return this.matrix.getNumCols();
     }
 
+
+    /**
+     * Augment the columns of {@code this} with {@code mat} restuling in a new matrix.
+     * @param mat the matrix to agument with (right matrix).
+     * @return An augmented form of the matrix.
+     * @throws IllegalArgumentException if the number of rows in the two matrices don't match.
+     */
+    public ZqMatrix augmentCols(ZqMatrix mat) throws IllegalArgumentException
+    {
+        IntegerMatrix res = this.matrix.augmentCols(mat.matrix);
+
+        if (this.q != mat.getQ())
+            throw new IllegalArgumentException("Moduli must match in column augmentation.");
+
+        return new ZqMatrix(res, mat.getQ());
+    }
+
+    /**
+     * Augment the rows of {@code this} with {@code mat} restuling in a new matrix.
+     * @param mat the matrix to agument with (lower matrix).
+     * @return An augmented form of the matrix.
+     * @throws IllegalArgumentException if the number of rows in the two matrices don't match.
+     */
+    public ZqMatrix augmentRows(ZqMatrix mat) throws IllegalArgumentException
+    {
+        IntegerMatrix res = this.matrix.augmentRows(mat.matrix);
+
+        if (this.q != mat.getQ())
+            throw new IllegalArgumentException("Moduli must match in row augmentation.");
+
+        return new ZqMatrix(res, this.q);
+    }
+
    
     /**
      * Compares this matrix and the passed in matrix and returns {@code true} 

@@ -73,7 +73,7 @@ public class IntegerMatrix
     /**
      * This method gets the identity matrix I_n.
      * @param n the dimension of the square matrix.
-     * @return the RealMatrix I_n.
+     * @return the IntegerMatrix I_n.
      */
     public static IntegerMatrix getIdentity(int n)
     {
@@ -445,6 +445,56 @@ public class IntegerMatrix
             for (int j = 0; j < numCols; j++)
                 mat.entries[j][i] = entries[i][j];
         return mat;
+    }
+
+    /**
+     * Augment the columns of {@code this} with {@code mat} restuling in a new matrix.
+     * @param mat the matrix to agument with (right matrix).
+     * @return An augmented form of the matrix.
+     * @throws IllegalArgumentException if the number of rows in the two matrices don't match.
+     */
+    public IntegerMatrix augmentCols(IntegerMatrix mat) throws IllegalArgumentException
+    {
+        IntegerMatrix res = new IntegerMatrix(mat.getNumRows(), this.numCols + mat.getNumCols());
+
+        if (mat.getNumRows() != this.numRows)
+            throw new IllegalArgumentException("Matrix column augmentation requires the same number of rows.");
+        
+        for (int i = 0; i < this.numRows; i++)
+        {
+            for (int j = 0; j < this.numCols; j++)
+                res.setEntry(i, j, this.entries[i][j]);
+
+            for (int k = 0; k < mat.getNumCols(); k++)
+                res.setEntry(i, k + this.numCols, mat.getEntry(i, k));
+        }
+
+        return res;
+    }
+
+    /**
+     * Augment the rows of {@code this} with {@code mat} restuling in a new matrix.
+     * @param mat the matrix to agument with (lower matrix).
+     * @return An augmented form of the matrix.
+     * @throws IllegalArgumentException if the number of rows in the two matrices don't match.
+     */
+    public IntegerMatrix augmentRows(IntegerMatrix mat) throws IllegalArgumentException
+    {
+        IntegerMatrix res = new IntegerMatrix(mat.getNumRows(), this.numCols + mat.getNumCols());
+
+        if (mat.getNumCols() != this.numCols)
+            throw new IllegalArgumentException("Matrix row augmentation requires the same number of columns.");
+        
+        for (int i = 0; i < this.numCols; i++)
+        {
+            for (int j = 0; j < this.numRows; j++)
+                res.setEntry(j, i, this.entries[i][j]);
+
+            for (int k = 0; k < mat.getNumRows(); k++)
+                res.setEntry(k + this.numCols, i, mat.getEntry(k, i));
+        }
+
+        return res;
     }
 
     /**
