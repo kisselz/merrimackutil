@@ -32,4 +32,16 @@
     * @return a formatted JSON string.
     */
    public String getFormattedJSON();
+
+   /**
+    * Returns {@code true} if the JSON type is an array; otherwise, {@code false}
+    * @return {@code true} if {@code this} is a JSON array.
+    */
+   public boolean isArray();
+
+   /**
+    * Returns {@code true} if the JSON type is an object; otherwise, {@code false}
+    * @return {@code true} if {@code this} is a JSON object.
+    */
+   public boolean isObject();
   }

@@ -250,6 +250,26 @@ public final class JSONArray extends ArrayList<Object> implements JSONType
    }
 
    /**
+    * Returns {@code true} if the JSON type is an array; otherwise, {@code false}
+    * 
+    * @return This method always returns {@code true}.
+    */
+   public boolean isArray() 
+   {
+     return true;
+   }
+
+   /**
+    * Returns {@code true} if the JSON type is an object; otherwise, {@code false}
+    * 
+    * @return This method always returns {@code false}.
+    */
+   public boolean isObject() 
+   {
+     return false;
+   }
+
+   /**
     * Helper method to create an indent string for pretty printing.
     * @param cnt the number of indents to make.
     * @return a string representing the indent.

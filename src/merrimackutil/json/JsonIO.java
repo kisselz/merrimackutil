@@ -80,7 +80,7 @@ public class JsonIO
    * Serializes the object {@code obj} into JSON and stores
    * the result in file {@code jsonFile}.
    * @param obj a JSON serializable object.
-   * @param jsonFile a file to store the serialized results to.\
+   * @param jsonFile a file to store the serialized results to.
    * @throws FileNotFoundException if the file is not found.
    */
   public static void writeSerializedObject(JSONSerializable obj, File jsonFile) throws
@@ -91,5 +91,30 @@ public class JsonIO
     out.close();
   }
 
+  /**
+   * Serializes the object {@code obj} into JSON and writes it 
+   * to the named PrinterWriter
+   * 
+   * @param obj a JSON serializable object.
+   * @param out the stream to write to..
+   */
+  public static void writeSerializedObject(JSONSerializable obj, PrintWriter out)
+  {
+    out.println(obj.serialize());
+  }
+
+  /**
+   * Stores a formatted JSON representation of {@code obj} in the 
+   * file {@code jsonFile}.
+   * 
+   * @param obj      a JSON serializable object.
+   * @param jsonFile a file to store the serialized results to.
+   * @throws FileNotFoundException if the file is not found.
+   */
+  public static void writeFormattedObject(JSONSerializable obj, File jsonFile) throws FileNotFoundException {
+    PrintWriter out = new PrintWriter(jsonFile);
+    out.println(obj.toJSONType().getFormattedJSON());
+    out.close();
+  }
 
 }

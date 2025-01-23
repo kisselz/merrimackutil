@@ -29,14 +29,17 @@ import java.io.InvalidObjectException;
     * Serializes the object into a JSON encoded string.
     * @return a string representing the JSON form of the object.
     */
-   public String serialize();
+   default public String serialize()
+   {
+    return toJSONType().toJSON();
+   }
 
    /**
     * Coverts json data to an object of this type.
     * @param obj a JSON type to deserialize.
     * @throws InvalidObjectException the type does not match this object.
     */
-   public void deserialize(JSONType obj) throws InvalidObjectException;
+    public void deserialize(JSONType obj) throws InvalidObjectException;
 
    /**
     * Converts the object to a JSON type. 

@@ -16,6 +16,7 @@
  */
 package merrimackutil.json.types;
 
+import java.io.InvalidObjectException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -251,6 +252,48 @@ public final class JSONObject extends HashMap<String, Object> implements JSONTyp
        tok = lex.nextToken();
      }
      return formattedJSON;
+   }
+
+   /**
+    * Returns {@code true} if the JSON type is an array; otherwise, {@code false}
+    * 
+    * @return This method always returns {@code false}.
+    */
+   public boolean isArray()
+   {
+    return false;
+   }
+
+   /**
+    * Returns {@code true} if the JSON type is an object; otherwise, {@code false}
+    * 
+    * @return This method always returns {@code true}.
+    */
+   public boolean isObject()
+   {
+    return true;
+   }
+
+   /**
+    * This method ensures all keys in the {@code keys} array are found in this
+    * object. If not, an exception is thrown that contains a list of the keys 
+    * not in the object.
+    * @param keys the keys that to check for in the object.
+    * @throws InvalidObjectException if every key in the {@code keys} array is not 
+    * found in the object.
+    */
+   public void checkValidity(String[] keys) throws InvalidObjectException
+   {
+     String missingKeys = "";
+
+     for (String key : keys) 
+      if (!this.containsKey(key))
+        missingKeys += key + ", ";
+    
+     if (!missingKeys.isEmpty())
+        throw new InvalidObjectException("Error object is missing required keys: " +
+            missingKeys.substring(0, missingKeys.length()-1));
+     
    }
 
    /**
