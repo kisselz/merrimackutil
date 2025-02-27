@@ -19,7 +19,9 @@ package merrimackutil.util;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Base64;
+import java.util.Collections;
 
 /**
  * This class implements a basic nonce cache.
@@ -30,7 +32,7 @@ public class NonceCache
   private int nonceSize;      // The size of the nonce in bytes.
   private long ageLimit;       // How long a nonce is valid in the cache.
   private SecureRandom rand;    // A secure random bit generator.
-  private HashMap<String, Long> cache;
+  private Map<String, Long> cache;
 
   /**
    * Constructs a new nonce cache with nonces of size {@code nonceSize} and
@@ -51,7 +53,7 @@ public class NonceCache
     this.nonceSize = nonceSize;
     this.ageLimit = ageLimit * 1000;  // The clock resolution is in ms.
     this.rand = new SecureRandom();
-    this.cache = new HashMap<>();
+    this.cache = Collections.synchronizedMap(new HashMap<>());
   }
 
   /**
