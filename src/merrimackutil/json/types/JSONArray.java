@@ -98,6 +98,21 @@ public final class JSONArray extends ArrayList<Object> implements JSONType
   }
 
   /**
+   * Gets long associated with the idx. If the
+   * idx is not associated with a Long, null is
+   * returned.
+   * @param idx the idx to find the associated value of.
+   * @return the associated value or null.
+   */
+  public Long getLong(int idx) {
+      Object val = get(idx);
+
+      if (val instanceof Long)
+          return (Long) val;
+      return null;
+  }
+
+  /**
    * Gets Boolean associated with the idx. If the
    * idx is not associated with a Boolean, null is
    * returned.
