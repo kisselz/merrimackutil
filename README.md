@@ -15,6 +15,9 @@ To build the library use ant. The targets are:
 ## Documentation
 The documentation for the API and the precompiled jar file is hosted on the CS server at http://cs.merrimack.edu/merrimackutil
 
-## Authors
+## Main Authors
 - Zach Kissel (2017 -- )
 - Chris Stuetzle (2023 -- )
+
+### Student Contributors
+- Seth Holtzman -- `getLong` support for JSON package.
