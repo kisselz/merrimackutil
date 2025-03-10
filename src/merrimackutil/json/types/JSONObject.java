@@ -101,6 +101,22 @@ public final class JSONObject extends HashMap<String, Object> implements JSONTyp
   }
 
   /**
+   * Gets long associated with the key. If the
+   * key is not associated with a Long, null is
+   * returned.
+   * @param key the key to find the associated value of.
+   * @return the associated value or null.
+   */
+  public Long getLong(String key)
+  {
+      Object val = get(key);
+
+      if (val instanceof Long)
+          return (Long) val;
+      return null;
+  }
+
+  /**
    * Gets Boolean associated with the key. If the
    * key is not associated with a Boolean, null is
    * returned.
