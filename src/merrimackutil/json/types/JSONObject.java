@@ -16,13 +16,14 @@
  */
 package merrimackutil.json.types;
 
+import merrimackutil.json.lexer.Lexer;
+import merrimackutil.json.lexer.Token;
+import merrimackutil.json.lexer.TokenType;
+
 import java.io.InvalidObjectException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import merrimackutil.json.lexer.Lexer;
-import merrimackutil.json.lexer.Token;
-import merrimackutil.json.lexer.TokenType;
 
 /**
  * This class represents a JSON object.
@@ -111,8 +112,14 @@ public final class JSONObject extends HashMap<String, Object> implements JSONTyp
   {
       Object val = get(key);
 
-      if (val instanceof Long)
+      if (val instanceof Long) {
           return (Long) val;
+      }
+      else if (val instanceof Double) {
+          if (Math.floor((Double)val) == (Double) val)
+              return (((Double) val).longValue());
+      }
+
       return null;
   }
 
