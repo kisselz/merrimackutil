@@ -93,8 +93,6 @@ package merrimackutil.codec;
           b32Tbl.indexOf(String.valueOf(b32str.charAt(i))))).replace(" ", "0");
      }
 
-    System.out.println(binString);
-
     res = new byte[binString.length()/8];
     for (int i = 0; i < binString.length()/8; i++)
       res[i] = (byte) (Integer.parseInt(
