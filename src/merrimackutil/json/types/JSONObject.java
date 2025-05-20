@@ -194,7 +194,12 @@ public final class JSONObject extends HashMap<String, Object> implements JSONTyp
        else
         output += val + ",";
      }
-     output = output.substring(0, output.length() - 1);
+
+     // Only trim the trailing comma if there is one.
+     if (keySet.size() > 0)
+      output = output.substring(0, output.length() - 1);
+
+     // Add the closing brace.
      output += "}";
      return output;
    }

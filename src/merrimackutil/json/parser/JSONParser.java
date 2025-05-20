@@ -34,6 +34,7 @@ public class JSONParser
   private boolean errorFound;   // TokenType.TRUE if ther was a parser error.
   private boolean doTracing;    // TokenType.TRUE if we should run parser tracing.
   private Token nextTok;        // The current token being analyzed.
+  private StringBuilder log;    // The log buffer. 
 
   /**
    * Constructs a new JSON parser for the file {@code source} by
@@ -46,6 +47,7 @@ public class JSONParser
     lex = new Lexer(jsonFile);
     errorFound = false;
     doTracing = false;
+    log = new StringBuilder();
   }
 
   /**
@@ -57,6 +59,7 @@ public class JSONParser
     lex = new Lexer(str);
     errorFound = false;
     doTracing = false;
+    log = new StringBuilder();
   }
 
   /**
@@ -75,6 +78,17 @@ public class JSONParser
   public boolean hasError()
   {
     return errorFound;
+  }
+
+  /**
+   * Get the error log from the parser.
+   * @return the error log as a string or "No Errors" in the case of no errors.
+   */
+  public String getErrorLog()
+  {
+    if (hasError())
+      return log.toString();
+    return "No Errors";
   }
 
   /**
@@ -145,8 +159,11 @@ public class JSONParser
 
       // Check to see if we have an empty class.
       if (nextTok.getType() == TokenType.RBRACE)
+      {
+        nextToken();
         return cnode;
-
+      }
+      
       // Add the first key-value pair to the class.
       pair = (KeyValueNode)parseKVPair();
       if (pair == null)
@@ -285,7 +302,7 @@ public class JSONParser
    */
    private void logError(String msg)
    {
-     System.err.println("Error (" + lex.getLineNumber() + "): " + msg);
+     log.append("Error (Line: " + lex.getLineNumber() + " Column: " + lex.getColumnNumber() + "): " + msg + "\n");
      errorFound = true;
    }
 

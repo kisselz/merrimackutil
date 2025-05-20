@@ -36,6 +36,7 @@ import java.io.IOException;
    private boolean skipRead;          // Whether or not to skip the next char
                                       // read.
    private long currentLineNumber;    // The current line number being processed.
+   private long currentColNumber;     // The current column number being processed.
 
    // The dictionary of language keywords
    private HashMap<String, TokenType> keywords;
@@ -53,6 +54,7 @@ import java.io.IOException;
    {
      input = new BufferedReader(new FileReader(file));
      currentLineNumber = 1;
+     currentColNumber = 0;
      loadKeywords();
    }
 
@@ -64,6 +66,7 @@ import java.io.IOException;
     {
       this.input = new BufferedReader(new StringReader(input));
       currentLineNumber = 1;
+      currentColNumber = 0;
       loadKeywords();
     }
 
@@ -84,11 +87,15 @@ import java.io.IOException;
           getChar();
 
           // Read the rest of the identifier.
-          while (nextClass != CharacterClass.QUOTE )
+          while (nextClass != CharacterClass.QUOTE && nextClass != CharacterClass.END)
           {
             value += nextChar;
             getChar();
           }
+
+          if (nextClass == CharacterClass.END)
+            return new Token(TokenType.UNKNOWN, value);
+
           return new Token(TokenType.STRING, value);
         case LETTER:
           value += nextChar;
@@ -175,6 +182,15 @@ import java.io.IOException;
       return currentLineNumber;
     }
 
+    /**
+     * Get the current column number being processed.
+     * @return the current column number being processed.
+     */
+    public long getColumnNumber()
+    {
+      return currentColNumber;
+    }
+
     /************
      * Private Methods
      ************/
@@ -248,6 +264,9 @@ import java.io.IOException;
          nextClass = CharacterClass.END;
        }
 
+       // Update the column number. 
+       currentColNumber++;
+
        if (c == -1) // If there is no character to read, we've reached the end.
        {
         nextChar = '\0';
@@ -272,9 +291,13 @@ import java.io.IOException;
        else
           nextClass = CharacterClass.OTHER;
 
-       // Update the line counter for error checking.
+       // Update the line counter and reset the column 
+       // counter for error checking.
        if (nextChar == '\n')
+       {
         currentLineNumber++;
+        currentColNumber = 0;
+       }
      }
 
      /**

@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import merrimackutil.json.types.JSONObject;
 import merrimackutil.json.types.JSONArray;
 import merrimackutil.json.parser.JSONParser;
+import merrimackutil.json.parser.ast.SyntaxTree;
 
 /**
  * This class provides convience methods for reading and writing JSON
@@ -35,22 +36,35 @@ public class JsonIO
    * @param objFile the file to read the object from.
    * @return a JSONObject or null in the case of error.
    * @throws FileNotFoundException if the file is not found.
+   * @throws InvalidJSONException if the JSON is invalid.
    */
-  public static JSONObject readObject(File objFile) throws FileNotFoundException
+  public static JSONObject readObject(File objFile) throws FileNotFoundException, InvalidJSONException
   {
     JSONParser parser = new JSONParser(objFile);
-    return (JSONObject) parser.parse().evaluate();
+
+    SyntaxTree ast = parser.parse();
+
+    if (parser.hasError())
+      throw new InvalidJSONException("readObject failed.\n" + parser.getErrorLog().trim());
+      
+    return (JSONObject) ast.evaluate();
   }
 
   /**
    * Reads the JSON object from string {@code objString}
    * @param objString the JSON string to read the object from.
    * @return a JSONObject or null in the case of error.
+   * @throws InvalidJSONException  if the JSON is invalid.
    */
-  public static JSONObject readObject(String objString)
+  public static JSONObject readObject(String objString) throws InvalidJSONException
   {
     JSONParser parser = new JSONParser(objString);
-    return (JSONObject) parser.parse().evaluate();
+
+    SyntaxTree ast = parser.parse();
+    if (parser.hasError())
+      throw new InvalidJSONException("readObject failed.\n" + parser.getErrorLog().trim());
+      
+    return (JSONObject) ast.evaluate();
   }
 
   /**
@@ -58,22 +72,35 @@ public class JsonIO
    * @param arrayFile the the file to read the array from.
    * @return a JSONArray or null in the case of error.
    * @throws FileNotFoundException if the file is not found.
+   * @throws InvalidJSONException if the JSON is invalid.
    */
-  public static JSONArray readArray(File arrayFile) throws FileNotFoundException
+  public static JSONArray readArray(File arrayFile) throws FileNotFoundException, InvalidJSONException
   {
     JSONParser parser = new JSONParser(arrayFile);
-    return (JSONArray) parser.parse().evaluate();
+
+    SyntaxTree ast = parser.parse();
+    if (parser.hasError())
+      throw new InvalidJSONException("readArray failed.\n" + parser.getErrorLog().trim());
+      
+    return (JSONArray) ast.evaluate();
   }
 
   /**
    * Builds the JSON array from string {@code arrayString}
    * @param arrayString the JSON string to read the array from.
    * @return a JSONArray or null in the case of error.
+   * @throws InvalidJSONException if the JSON is invalid.
    */
-  public static JSONArray readArray(String arrayString)
+  public static JSONArray readArray(String arrayString) throws InvalidJSONException
   {
     JSONParser parser = new JSONParser(arrayString);
-    return (JSONArray) parser.parse().evaluate();
+
+    SyntaxTree ast = parser.parse();
+
+    if (parser.hasError())
+      throw new InvalidJSONException("readObject failed.\n" + parser.getErrorLog().trim());
+      
+    return (JSONArray) ast.evaluate();
   }
 
   /**
@@ -116,5 +143,4 @@ public class JsonIO
     out.println(obj.toJSONType().getFormattedJSON());
     out.close();
   }
-
 }

@@ -16,6 +16,7 @@
  */
 package merrimackutil.net.hostdb;
 
+import merrimackutil.json.InvalidJSONException;
 import merrimackutil.json.JSONSerializable;
 import merrimackutil.json.JsonIO;
 import merrimackutil.json.types.JSONType;
@@ -42,8 +43,9 @@ import java.io.InvalidObjectException;
     * @param file the file representing the JSON data.
     * @throws InvalidObjectException the JSON object is not a valid hosts database.
     * @throws FileNotFoundException the hosts database file could not be found.
+    * @throws InvalidJSONException the JSON is invalid.
     */
-   public HostsDatabase(File file) throws InvalidObjectException, FileNotFoundException
+   public HostsDatabase(File file) throws InvalidObjectException, FileNotFoundException, InvalidJSONException
    {
     hostMap = new HashMap<>();
     deserialize(JsonIO.readObject(file));
