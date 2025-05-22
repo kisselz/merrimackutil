@@ -21,7 +21,7 @@ import java.io.StringReader;
 import java.io.FileReader;
 import java.io.File;
 import java.util.HashMap;
-
+import java.util.HexFormat;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -41,7 +41,7 @@ import java.io.IOException;
    // The dictionary of language keywords
    private HashMap<String, TokenType> keywords;
 
-   private enum CharacterClass {LETTER, DIGIT, WHITE_SPACE, OTHER, END, MINUS, PLUS, QUOTE};
+   private enum CharacterClass {LETTER, DIGIT, WHITE_SPACE, OTHER, END, MINUS, PLUS, QUOTE, ESCAPE};
    CharacterClass nextClass; // The character class of the nextChar.
 
    /**
@@ -77,6 +77,7 @@ import java.io.IOException;
     public Token nextToken()
     {
       String value = "";   // The value to be associated with the token.
+      CharacterClass prevClass = CharacterClass.OTHER; // The previous class for handling escape sequences. 
 
       getNonBlank();
       switch (nextClass)
@@ -90,7 +91,45 @@ import java.io.IOException;
           while (nextClass != CharacterClass.QUOTE && nextClass != CharacterClass.END)
           {
             value += nextChar;
+            prevClass = nextClass;
             getChar();
+
+            // Handle escape sequences from the JSON Standard.
+            if (prevClass == CharacterClass.ESCAPE)
+            {
+              switch (nextChar)
+              {
+                case '\"':
+                case '\\':
+                case '/':
+                case 'b':
+                case 'f':
+                case 'n':
+                case 'r':
+                case 't':
+                  value += nextChar;
+                break;
+                case 'u':
+                  value += nextChar;
+                  String tmp = "";
+
+                  // Read 4 hex digits.
+                  for (int i = 0; i < 4; i++)
+                  {
+                    getChar();
+                    if (HexFormat.isHexDigit(nextChar))
+                    {
+                      tmp += nextChar;
+                      value += nextChar;
+                    }
+                    else
+                      return new Token(TokenType.UNKNOWN, "\\u"+tmp + ((nextChar != '\0')? nextChar:""));
+                  }
+                default:
+                  return new Token(TokenType.UNKNOWN, "\\u" + ((nextChar != '\0')? nextChar:""));
+              }
+              getChar();
+            }
           }
 
           if (nextClass == CharacterClass.END)
@@ -288,6 +327,8 @@ import java.io.IOException;
         nextClass = CharacterClass.PLUS;
        else if (nextChar == '\"')
         nextClass = CharacterClass.QUOTE;
+       else if (nextChar == '\\')
+        nextClass = CharacterClass.ESCAPE;
        else
           nextClass = CharacterClass.OTHER;
 
@@ -331,6 +372,4 @@ import java.io.IOException;
         keywords.put("true", TokenType.TRUE);
         keywords.put("false", TokenType.FALSE);
       }
-
-
  }
