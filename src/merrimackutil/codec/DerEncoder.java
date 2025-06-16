@@ -93,11 +93,14 @@ import java.io.UnsupportedEncodingException;
     */
     public static byte[] encodeSequence(ArrayList<byte[]> lst)
     {
-      byte[] payload;
+      byte[] payload = new byte[0];
 
-      payload = lst.get(0);
-      for (int i = 1; i < lst.size(); i++)
-          payload = joinArrays(payload, lst.get(i));
+      if (lst.size() > 0)
+      {
+        payload = lst.get(0);
+        for (int i = 1; i < lst.size(); i++)
+            payload = joinArrays(payload, lst.get(i));
+      }
 
       // Handle the case where the length can be encoded using
       // one byte.
