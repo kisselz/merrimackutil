@@ -52,7 +52,7 @@ import merrimackutil.json.lexer.Token;
          case STRING:
           return token.getValue();
          case NULL:
-          return "null";
+          return null; //"null";
          default:
           return token;
         }

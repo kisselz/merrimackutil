@@ -159,6 +159,16 @@ public final class JSONArray extends ArrayList<Object> implements JSONType
       return (JSONObject) val;
      return null;
    }
+   
+   /**
+    * Determines if value at index {@code idx} is a null value.
+    * @param idx the index to check.
+    * @return {@code true} if the value at index {@code idx} is null; otherwise, {@code false}.
+    */
+   public boolean isNull(int idx)
+   {
+     return get(idx) == null;
+   }
 
    /**
     * Gets the type of value associated with index {@code idx}.

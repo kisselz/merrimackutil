@@ -172,6 +172,16 @@ public final class JSONObject extends HashMap<String, Object> implements JSONTyp
    }
 
    /**
+    * Determines if {@code key} is a null value.
+    * @param key the key to check.
+    * @return {@code true} if the {@code key}'s value is null; otherwise, {@code false}.
+    */
+   public boolean isNull(String key)
+   {
+     return get(key) == null;
+   }
+
+   /**
     * Gets the type of value associated with key {@code key}.
     * @param key the key to get the value type of.
     * @return the value type associated with {@code key}.
