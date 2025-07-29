@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2017 -- 2024  Zachary A. Kissel
+ *   Copyright (C) 2017 -- 2025  Zachary A. Kissel
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -158,6 +158,37 @@ public final class JSONArray extends ArrayList<Object> implements JSONType
      if (val instanceof JSONObject)
       return (JSONObject) val;
      return null;
+   }
+
+   /**
+    * Gets the type of value associated with index {@code idx}.
+    * @param idx the index to get the type of.
+    * @return the value type associated with {@code key}.
+    */
+   public JSONValType getValueType(int idx)
+   {
+      Object val = get(idx);
+
+      if (val instanceof Double)
+      {
+          // Check if this is an integer.
+          if (Math.floor((Double)val) == (Double) val)
+           return JSONValType.INT;
+          else 
+            return JSONValType.DOUBLE;
+      }
+      else if (val instanceof Long)
+        return JSONValType.LONG;
+      else if (val instanceof String)
+        return JSONValType.STRING;
+      else if (val instanceof Boolean)
+        return JSONValType.BOOLEAN;
+      else if (val instanceof JSONArray)
+        return JSONValType.ARRAY;
+      else if (val instanceof JSONObject)
+        return JSONValType.OBJECT;
+      else
+        return JSONValType.NULL;
    }
 
    /**
