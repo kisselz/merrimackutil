@@ -34,6 +34,7 @@ public class HostEntry implements JSONSerializable
   /**
    * Construct a host entry from the corresponding JSON object.
    * @param obj a JSON object representing a host entry.
+   * @throws InvalidObjectException if {@code obj} is not a valid JSON object.
    */
   public HostEntry(JSONObject obj) throws InvalidObjectException
   {

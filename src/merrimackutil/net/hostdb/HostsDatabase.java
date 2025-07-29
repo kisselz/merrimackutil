@@ -53,7 +53,7 @@ import java.io.InvalidObjectException;
 
    /**
     * Construct a new host from the given JSON object.
-    * @param a JSON objec that represents a hosts file.
+    * @param obj a JSON object that represents a hosts file.
     * @throws InvalidObjectException if the JSON object does not represent
     * a host file.
     */

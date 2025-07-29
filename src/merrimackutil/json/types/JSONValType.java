@@ -16,6 +16,10 @@
  */
 package merrimackutil.json.types;
 
+/**
+ * An enumeration that represents the possible value types a JSON key can 
+ * be associated with.
+ */
 public enum JSONValType 
 {
  /**
